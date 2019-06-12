@@ -25,4 +25,14 @@ def myip():
     # DNS Command and Options - dig_ommand --> Include a space at the end - dns_options --> Include a Blank space before the Options
     dig_command = "dig "
     dns_option = " TXT +short"
+    # We will perform WHOIS Queries for the IP details from both CYMRU and BGPMON
+    whois = "whois"
+    whom_cymru = "whois -h whois.cymru.com -v"
+    whom_bgpmon = "whois -h whois.bgpmon.net"
+    # Lets define the WHOIS Queries
+    whois_query = whois+client_ip
+    cymru_ip_lookup = whom_cymru+client_ip
+    bgpmon_ip_lookup = whom_bgpmon+client_ip
+    
+    
     

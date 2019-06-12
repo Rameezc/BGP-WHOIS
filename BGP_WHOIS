@@ -1,0 +1,28 @@
+#!/usr/bin/python
+
+# This is a basic WHOIS using Python
+# No Exceptions or Error Checking is included
+
+import subprocess
+
+print "We will prompt a user for an IP address and return BGP/WHOIS related information"
+print "================================================================================="
+print 
+
+# First we will create the definition and define the various parameters and domains to be queried:
+
+def myip():
+    # import subprocess
+    # Prompt User for the IP
+    client_ip = raw_input("Please enter an IP address from the Subnet to be checked: ")
+    print 
+    # Next we will define the CYMRU.DOMAIN - This is used for the DNS-TXT Record Lookup Checking ORIGIN ASN:
+    cymru_domain = ".origin.asn.cymru.com"
+    # Next we will take the IP the User entered, .Split, Reverse[::-1] and Join(.) it - To allow a DIG TXT
+    updated_ip = '.'.join(client_ip.split('.')[::-1])
+    # Now we will Join the Variables 'updated_ip' and 'cymru_domain' - In this specific order
+    cymru_ip_domain = updated_ip+cymru_domain
+    # DNS Command and Options - dig_ommand --> Include a space at the end - dns_options --> Include a Blank space before the Options
+    dig_command = "dig "
+    dns_option = " TXT +short"
+    

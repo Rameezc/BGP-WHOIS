@@ -44,8 +44,26 @@ def myip():
     print "================================================================================="
     print "CYMRU Query: IP LOOKUP"
     print "================================================================================="
+    # Now lets use SUBPROCESS to perform CLI commands 
+    subprocess.call(cymru_ip_lookup, shell=True)
+    print 
+    print "================================================================================="
+    print "BGP Query: IP LOOKUP"
+    print "================================================================================="
+    subprocess.call(bgpmon_ip_lookup, shell=True)
+    print 
+    print "================================================================================="
+    print "DNS QUERY: Origin ASN/Prefix Details: "
+    print "================================================================================="
+    subprocess.call(dig_query_ip_asn, shell=True)
+    print 
+    print "Last lets check the WHOIS - ARIN Registry:"
+    print "=============================================="
+    print 
+    print subprocess.call(whois_query, shell=True)
     
-    
+ 
+print myip()
     
     
     

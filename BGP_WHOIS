@@ -29,15 +29,15 @@ def myip():
     dig_query_ip_asn = dig_command+cymru_ip_domain+dns_option
     # We will perform WHOIS Queries for the IP details from both CYMRU and BGPMON
     whois = "whois"
-    whom_cymru = "whois -h whois.cymru.com -v"
-    whom_bgpmon = "whois -h whois.bgpmon.net"
+    whom_cymru = "whois -h whois.cymru.com -v "
+    whom_bgpmon = "whois -h whois.bgpmon.net "
     # Lets define the WHOIS Queries
     # First we will perform a Generic WHOIS from ARIN - This is an additional Catch-All
     whois_query = whois+client_ip
     cymru_ip_lookup = whom_cymru+client_ip
     bgpmon_ip_lookup = whom_bgpmon+client_ip
     # We can now start Printing our output
-    # Commands which will be run/performed - can be used to help with debugs/faiures
+    # Commands which will be run/performed - can be used to help with debugs/failures
     # print cymru_ip_lookup
     # print bgpmon_ip_lookup
     # print dig_query_ip_asn

@@ -28,7 +28,7 @@ def myip():
     # The DNS Query 
     dig_query_ip_asn = dig_command+cymru_ip_domain+dns_option
     # We will perform WHOIS Queries for the IP details from both CYMRU and BGPMON
-    whois = "whois"
+    whois = "whois "
     whom_cymru = "whois -h whois.cymru.com -v "
     whom_bgpmon = "whois -h whois.bgpmon.net "
     # Lets define the WHOIS Queries

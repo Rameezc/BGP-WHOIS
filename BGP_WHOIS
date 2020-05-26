@@ -11,60 +11,69 @@ print
 
 # First we will create the definition and define the various parameters and domains to be queried:
 
-def myip():
+# Variables
+cymru_domain = ".origin.asn.cymru.com" # CYMRU.DOMAIN - This is used for the DNS-TXT Record Lookup Checking ORIGIN ASN:
+# DNS Command and Options - dig_command --> Include a space at the end - dns_options --> Include a Blank space before the Options
+dig_command = "dig "
+dns_option = " TXT +short"
+whois = "whois "
+whom_cymru = "whois -h whois.cymru.com -v "
+whom_bgpmon = "whois -h whois.bgpmon.net "
+
+
+# Banners
+CYMRUBANNER = '''
+================================================================================="
+    CYMRU Query: IP LOOKUP"
+================================================================================='''
+
+BGPQUERYBANNER='''
+================================================================================="
+    BGP Query: IP LOOKUP"
+================================================================================='''
+
+DNSQUERYBANNER='''
+================================================================================="
+    DNS QUERY: Origin ASN/Prefix Details: "
+================================================================================='''
+
+WHOISARINBANNER='''
+==============================================
+    Last lets check the WHOIS - ARIN Registry:"
+=============================================='''
+
+# Lookup functions
+
+def cymru_ip_lookup(client_ip):
+    print CYMRUBANNER
+    cymru_ip_lookup = whom_cymru+client_ip
+    subprocess.call(cymru_ip_lookup, shell=True)
+def bgpmon_ip_lookup(client_ip):
+    print BGPQUERYBANNER
+    bgpmon_ip_lookup = whom_bgpmon+client_ip
+    subprocess.call(bgpmon_ip_lookup, shell=True)
+def cymru_dns_lookup(cymru_ip_domain):
+    print DNSQUERYBANNER
+    dig_query_ip_asn = dig_command+cymru_ip_domain+dns_option
+    subprocess.call(dig_query_ip_asn, shell=True)
+def whois_arin_lookup(client_ip):
+    print WHOISARINBANNER
+    whois_query = whois+client_ip
+    print subprocess.call(whois_query, shell=True)
+
+# Main program
+
+if __name__ == "__main__":
     # import subprocess
     # Prompt User for the IP
     client_ip = raw_input("Please enter an IP address from the Subnet to be checked: ")
-    print 
-    # Next we will define the CYMRU.DOMAIN - This is used for the DNS-TXT Record Lookup Checking ORIGIN ASN:
-    cymru_domain = ".origin.asn.cymru.com"
+    print     
     # Next we will take the IP the User entered, .Split, Reverse[::-1] and Join(.) it - To allow a DIG TXT
     updated_ip = '.'.join(client_ip.split('.')[::-1])
     # Now we will Join the Variables 'updated_ip' and 'cymru_domain' - In this specific order
     cymru_ip_domain = updated_ip+cymru_domain
-    # DNS Command and Options - dig_ommand --> Include a space at the end - dns_options --> Include a Blank space before the Options
-    dig_command = "dig "
-    dns_option = " TXT +short"
-    # The DNS Query 
-    dig_query_ip_asn = dig_command+cymru_ip_domain+dns_option
-    # We will perform WHOIS Queries for the IP details from both CYMRU and BGPMON
-    whois = "whois "
-    whom_cymru = "whois -h whois.cymru.com -v "
-    whom_bgpmon = "whois -h whois.bgpmon.net "
-    # Lets define the WHOIS Queries
-    # First we will perform a Generic WHOIS from ARIN - This is an additional Catch-All
-    whois_query = whois+client_ip
-    cymru_ip_lookup = whom_cymru+client_ip
-    bgpmon_ip_lookup = whom_bgpmon+client_ip
-    # We can now start Printing our output
-    # Commands which will be run/performed - can be used to help with debugs/failures
-    # print cymru_ip_lookup
-    # print bgpmon_ip_lookup
-    # print dig_query_ip_asn
-    print "================================================================================="
-    print "CYMRU Query: IP LOOKUP"
-    print "================================================================================="
-    # Now lets use SUBPROCESS to perform CLI commands 
-    subprocess.call(cymru_ip_lookup, shell=True)
-    print 
-    print "================================================================================="
-    print "BGP Query: IP LOOKUP"
-    print "================================================================================="
-    subprocess.call(bgpmon_ip_lookup, shell=True)
-    print 
-    print "================================================================================="
-    print "DNS QUERY: Origin ASN/Prefix Details: "
-    print "================================================================================="
-    subprocess.call(dig_query_ip_asn, shell=True)
-    print 
-    print "Last lets check the WHOIS - ARIN Registry:"
-    print "=============================================="
-    print 
-    print subprocess.call(whois_query, shell=True)
-    
- 
-print myip()
-    
-    
-    
-    
+
+    cymru_ip_lookup(client_ip)
+    bgpmon_ip_lookup(client_ip)
+    cymru_dns_lookup(cymru_ip_domain)
+    whois_arin_lookup(client_ip)

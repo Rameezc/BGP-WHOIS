@@ -5,26 +5,26 @@
 
 import subprocess
 
-print "We will prompt a user for an IP address and return BGP/WHOIS related information"
-print "================================================================================="
-print 
+print("We will prompt a user for an IP address and return BGP/WHOIS related information")
+print("=================================================================================")
+print() 
 
 # First we will create the definition and define the various parameters and domains to be queried:
 
 def myip():
     # import subprocess
     # Prompt User for the IP
-    client_ip = raw_input("Please enter an IP address from the Subnet to be checked: ")
-    print 
+    client_ip = input("Please enter an IP address from the Subnet to be checked: ")
+    print() 
     # Next we will define the CYMRU.DOMAIN - This is used for the DNS-TXT Record Lookup Checking ORIGIN ASN:
     cymru_domain = ".origin.asn.cymru.com"
     # Next we will take the IP the User entered, .Split, Reverse[::-1] and Join(.) it - To allow a DIG TXT
     updated_ip = '.'.join(client_ip.split('.')[::-1])
     # Now we will Join the Variables 'updated_ip' and 'cymru_domain' - In this specific order
     cymru_ip_domain = updated_ip+cymru_domain
-    # DNS Command and Options - dig_ommand --> Include a space at the end - dns_options --> Include a Blank space before the Options
-    dig_command = "dig "
-    dns_option = " TXT +short"
+    # DNS Command and Options - dig_command --> Include a space at the end - dns_options --> Include a Blank space before the Options
+    dig_command = "dig -x "
+    dns_option = " +short"
     # The DNS Query 
     dig_query_ip_asn = dig_command+cymru_ip_domain+dns_option
     # We will perform WHOIS Queries for the IP details from both CYMRU and BGPMON
@@ -38,32 +38,33 @@ def myip():
     bgpmon_ip_lookup = whom_bgpmon+client_ip
     # We can now start Printing our output
     # Commands which will be run/performed - can be used to help with debugs/failures
-    # print cymru_ip_lookup
-    # print bgpmon_ip_lookup
-    # print dig_query_ip_asn
-    print "================================================================================="
-    print "CYMRU Query: IP LOOKUP"
-    print "================================================================================="
+    # print(cymru_ip_lookup)
+    # print(bgpmon_ip_lookup)
+    # print(dig_query_ip_asn)
+    print("=================================================================================")
+    print("CYMRU Query: IP LOOKUP")
+    print("=================================================================================")
     # Now lets use SUBPROCESS to perform CLI commands 
     subprocess.call(cymru_ip_lookup, shell=True)
-    print 
-    print "================================================================================="
-    print "BGP Query: IP LOOKUP"
-    print "================================================================================="
+    print() 
+    print("=================================================================================")
+    print("BGP Query: IP LOOKUP")
+    print("=================================================================================")
     subprocess.call(bgpmon_ip_lookup, shell=True)
-    print 
-    print "================================================================================="
-    print "DNS QUERY: Origin ASN/Prefix Details: "
-    print "================================================================================="
+    print() 
+    print("=================================================================================")
+    print("DNS QUERY: Origin ASN/Prefix Details: ")
+    print("=================================================================================")
     subprocess.call(dig_query_ip_asn, shell=True)
-    print 
-    print "Last lets check the WHOIS - ARIN Registry:"
-    print "=============================================="
-    print 
-    print subprocess.call(whois_query, shell=True)
+    print() 
+    print("Last lets check the WHOIS - ARIN Registry:")
+    print("==============================================")
+    print()
+    subprocess.call(whois_query, shell=True)
+    #print(subprocess.call(whois_query, shell=True))
     
  
-print myip()
+print(myip())
     
     
     

@@ -2,6 +2,13 @@
 
 # This is a basic WHOIS using Python
 # No Exceptions or Error Checking is included
+#
+#BEWARE! With Subprocess and No Validation in Place or Error Correction, it would be possible to Pass additional commands. For example, when queried for the IP, the user
+#is able to use Linux based commands, to include additional actions: '4.4.4.4 ; ls' 
+
+#2021 - Added basic steps to only accept isdigit(): 
+#''.join(i for i in client_ip_a if i.isdigit() or i in '-./\\')
+
 
 import subprocess
 
@@ -14,7 +21,8 @@ print()
 def myip():
     # import subprocess
     # Prompt User for the IP
-    client_ip = input("Please enter an IP address from the Subnet to be checked: ")
+    client_ip_a = input("Please enter an IP address from the Subnet to be checked: ")
+    client_ip = ''.join(i for i in client_ip_a if i.isdigit() or i in '-./\\')
     print() 
     # Next we will define the CYMRU.DOMAIN - This is used for the DNS-TXT Record Lookup Checking ORIGIN ASN:
     cymru_domain = ".origin.asn.cymru.com"

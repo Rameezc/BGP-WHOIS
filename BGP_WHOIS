@@ -63,7 +63,7 @@ def myip():
     subprocess.call(whois_query, shell=True)
     #print(subprocess.call(whois_query, shell=True))
     
- 
+
 print(myip())
     
     
